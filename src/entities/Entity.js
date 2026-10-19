@@ -1,4 +1,5 @@
 import { SCREEN_OFFSET_X, ORIENTATION, FLOOR } from "../constants";
+import { atlasKey } from "../gfxMode";
 
 class Entity {
 
@@ -52,7 +53,7 @@ class Entity {
 
     resetTexture() {
         const time = this.scene.logic.isNight() ? "night" : "day";
-        this.sprite.setTexture(`${this.spriteName}_${time}`);
+        this.sprite.setTexture(atlasKey(this.spriteName, time));
         this.updateSpriteFrame();
     }
 

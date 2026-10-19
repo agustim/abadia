@@ -1,11 +1,13 @@
 const fs = require('fs');
 const DiskImageLoader = require('./utils/DiskImageLoader.js');
 const GfxGenerator = require('./generators/GfxGenerator.js');
+const VgaGfxGenerator = require('./generators/VgaGfxGenerator.js');
 const RoomGenerator = require('./generators/RoomGenerator.js');
 const ScriptGenerator = require('./generators/ScriptGenerator.js');
 const TextGenerator = require('./generators/TextGenerator.js');
 
 const DISK_IMAGE_PATH = './public/assets/disk/abadia.dsk';
+const VGA_GFX_PATH = './scripts/data/GraficosVGA';
 const GFX_OUTPT_PATH = './public/assets/gfx/';
 const TXT_OUTPT_PATH = './public/assets/txt/';
 const ROOMS_OUTPUT_PATH = './public/assets/abadia/';
@@ -19,6 +21,9 @@ async function main() {
     gfxGenerator.generateAllTileSet(GFX_OUTPT_PATH);
     gfxGenerator.generateAllSpriteSet(GFX_OUTPT_PATH);
     gfxGenerator.generateUiSet(GFX_OUTPT_PATH);
+
+    const vgaGfxGenerator = new VgaGfxGenerator(fs.readFileSync(VGA_GFX_PATH), memoryData);
+    vgaGfxGenerator.generateAll(GFX_OUTPT_PATH);
 
     const textGenerator = new TextGenerator(memoryData);
     textGenerator.generateText(TXT_OUTPT_PATH);

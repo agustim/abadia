@@ -274,7 +274,7 @@ class GameLogic {
 
     decrementObsequium(num) {
 
-        this.obsequium -= num;
+        //this.obsequium -= num;
         if (this.obsequium < 0) {
             
             if (!this.gameOver) this.scene.abad.state = 0x0B;

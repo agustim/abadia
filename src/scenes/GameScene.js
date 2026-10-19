@@ -15,6 +15,7 @@ import Item from '../entities/Item';
 import Lamp from '../entities/Lamp';
 import Reflection from '../entities/Reflection';
 import { FLOOR, ORIENTATION, SCREEN_OFFSET_X, TICK_TIME } from '../constants';
+import { getGfxMode, toggleGfxMode } from '../gfxMode';
 import GameLogic from '../logic/GameLogic';
 import GameBoard from '../logic/GameBoard';
 
@@ -183,6 +184,7 @@ class GameScene extends Scene {
     this.keyPLUS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ADD);
     this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     this.keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+    this.keyV = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.input.keyboard.on('keydown', (event) => {
@@ -371,6 +373,12 @@ class GameScene extends Scene {
 
     if (Phaser.Input.Keyboard.JustDown(this.keyPLUS)) {
       this.logic.advanceTimeOfDay = true;
+    }
+
+    // commuta entre grafics CPC i VGA i refresca tots els sprites
+    if (Phaser.Input.Keyboard.JustDown(this.keyV)) {
+      toggleGfxMode();
+      this.changeDayNight();
     }
   }
 

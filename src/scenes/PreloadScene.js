@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { getGfxMode } from '../gfxMode';
 
 class PreloadScene extends Scene {
   constructor() {
@@ -11,8 +12,12 @@ class PreloadScene extends Scene {
 
     this.load.atlas('tiles_day', 'assets/gfx/tiles/tiles_day.png', 'assets/gfx/tiles/tiles.json');
     this.load.atlas('tiles_night', 'assets/gfx/tiles/tiles_night.png', 'assets/gfx/tiles/tiles.json');
+    this.load.atlas('tiles_day_vga', 'assets/gfx/tiles/tiles_day_vga.png', 'assets/gfx/tiles/tiles.json');
+    this.load.atlas('tiles_night_vga', 'assets/gfx/tiles/tiles_night_vga.png', 'assets/gfx/tiles/tiles.json');
     this.load.atlas('days_day', 'assets/gfx/ui/days_day.png', 'assets/gfx/ui/days.json');
     this.load.atlas('days_night', 'assets/gfx/ui/days_night.png', 'assets/gfx/ui/days.json');
+    this.load.atlas('days_day_vga', 'assets/gfx/ui/days_day_vga.png', 'assets/gfx/ui/days.json');
+    this.load.atlas('days_night_vga', 'assets/gfx/ui/days_night_vga.png', 'assets/gfx/ui/days.json');
 
     this.load.audioSprite('music', ' assets/audio/music.json', 'assets/audio/music.ogg');
     this.load.audioSprite('sound', ' assets/audio/sound.json', 'assets/audio/sound.ogg');
@@ -21,7 +26,12 @@ class PreloadScene extends Scene {
     
     this.load.image('hud_day', 'assets/gfx/ui/hud_day.png');
     this.load.image('hud_night', 'assets/gfx/ui/hud_night.png');
+    this.load.image('hud_day_vga', 'assets/gfx/ui/hud_day_vga.png');
+    this.load.image('hud_night_vga', 'assets/gfx/ui/hud_night_vga.png');
     this.load.image('scroll', 'assets/gfx/ui/scroll.png');
+    this.load.image('scroll_vga', 'assets/gfx/ui/scroll_vga.png');
+    this.load.image('title', 'assets/gfx/ui/title.png');
+    this.load.image('title_vga', 'assets/gfx/ui/title_vga.png');
 
     this.load.image('light', 'assets/gfx/sprites/light.png');
 
@@ -29,13 +39,15 @@ class PreloadScene extends Scene {
       const json = (sprite == 'adso' || sprite == 'objects' || sprite == 'doors') ? sprite : 'monk';
       this.load.atlas(`${sprite}_day`,`assets/gfx/sprites/${sprite}_day.png`,`assets/gfx/sprites/${json}.json`);
       this.load.atlas(`${sprite}_night`,`assets/gfx/sprites/${sprite}_night.png`,`assets/gfx/sprites/${json}.json`);
+      this.load.atlas(`${sprite}_day_vga`,`assets/gfx/sprites/${sprite}_day_vga.png`,`assets/gfx/sprites/${json}.json`);
+      this.load.atlas(`${sprite}_night_vga`,`assets/gfx/sprites/${sprite}_night_vga.png`,`assets/gfx/sprites/${json}.json`);
     });
     
   }
 
   create() {
 
-    this.add.image(0, 0, 'title').setOrigin(0,0);
+    this.add.image(0, 0, getGfxMode() === 'vga' ? 'title_vga' : 'title').setOrigin(0,0);
 
     // Parsear scripts
     const scriptFile = this.cache.text.get('scripts');

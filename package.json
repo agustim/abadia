@@ -24,6 +24,7 @@
     "start": "webpack serve --mode development",
     "generate": "node scripts/main.js",
     "build": "webpack --mode production",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist",
+    "test": "node --test tests/"
   }
 }

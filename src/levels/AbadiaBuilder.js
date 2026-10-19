@@ -1,5 +1,7 @@
 import ScriptInterpreter from './ScriptInterpreter';
 import { TILE_HACKS, MIRROR_HACKS, SCREEN_OFFSET_X, BACKGROUND_COLOR_DAY, BACKGROUND_COLOR_NIGHT } from '../constants';
+import { atlasKey, getGfxMode } from '../gfxMode';
+import { applyVgaTileFixes } from './VgaTileFixes';
 
 class AbadiaBuilder {
   
@@ -118,6 +120,11 @@ class AbadiaBuilder {
       if (this.trapOpened) this.fixTiles(roomData, num, MIRROR_HACKS);
 
       this.interpretedRooms.set(num, roomData);
+    }
+
+    // correccions de tiles especificques del mode VGA (no muten el cache)
+    if (getGfxMode() === 'vga') {
+      roomData = applyVgaTileFixes(roomData, num);
     }
 
     this.renderRoom(roomData);
@@ -296,7 +303,19 @@ class AbadiaBuilder {
     const time = this.scene.logic.isNight() ? "night" : "day";
     const backgroundColor = this.scene.logic.isNight() ? BACKGROUND_COLOR_NIGHT : BACKGROUND_COLOR_DAY;
     this.scene.cameras.main.setBackgroundColor(backgroundColor);
-    
+
+    // En mode VGA el fons de l'àrea de joc és el tile 0 (gris pedra), com al
+    // original: limpiaPantalla inicialitza el buffer de tiles amb tile 0 a tot
+    // arreu, i els forats transparents dels tiles el deixen veure. En CPC no
+    // cal pintar-lo perquè el tile 0 CPC és exactament el color de fons (teal).
+    if (getGfxMode() === 'vga') {
+      const vgaBase = this.scene.add.tileSprite(
+        SCREEN_OFFSET_X, 0, 256, 160,
+        atlasKey('tiles', time), 'tile1'
+      ).setOrigin(0, 0).setDepth(-1000);
+      this.currentRoomSprites.push(vgaBase);
+    }
+
     for (let x = 0; x < 16; x++) {
       for (let y = 0; y < 20; y++) {
         
@@ -313,7 +332,7 @@ class AbadiaBuilder {
           sprite = this.scene.add.sprite(
             SCREEN_OFFSET_X + x * 16, 
             y * 8, 
-            `tiles_${time}`, 
+            atlasKey('tiles', time), 
             'tile' + tileInfo.tile
           ).setOrigin(0, 0).setDepth(depth);
 

@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { getGfxMode } from '../gfxMode';
 
 class ScrollScene extends Scene {
   constructor() {
@@ -11,7 +12,7 @@ class ScrollScene extends Scene {
 
   preload() {
     
-    this.add.image(0, 0, 'scroll').setOrigin(0,0);
+    this.add.image(0, 0, getGfxMode() === 'vga' ? 'scroll_vga' : 'scroll').setOrigin(0,0);
     
     this.load.json('scrollChars', 'assets/txt/scrollChars.json');
     this.load.json('scrollText', 'assets/txt/scrollText.json');

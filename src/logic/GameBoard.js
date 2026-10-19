@@ -1,4 +1,5 @@
 import { SCREEN_OFFSET_X, TEXT_COLOR_DAY, TEXT_COLOR_NIGHT } from '../constants';
+import { atlasKey } from '../gfxMode';
 
 class GameBoard {
 
@@ -91,12 +92,12 @@ class GameBoard {
     resetBoard() {
 
         const time = this.scene.logic.isNight() ? "night" : "day";
-        this.board.setTexture(`hud_${time}`);
+        this.board.setTexture(atlasKey('hud', time));
         for(let i=0; i < 3; i++) {
-            this.daySprite[i].setTexture(`days_${time}`);
+            this.daySprite[i].setTexture(atlasKey('days', time));
         }
         for(let i=0; i < 6; i++) {
-            this.objects[i].setTexture(`objects_${time}`);
+            this.objects[i].setTexture(atlasKey('objects', time));
             this.objects[i].setFrame(GameBoard.OBJECTS[i]);
         }
         this.textBackground.setFillStyle(this.scene.logic.isNight() ? TEXT_COLOR_NIGHT : TEXT_COLOR_DAY);
